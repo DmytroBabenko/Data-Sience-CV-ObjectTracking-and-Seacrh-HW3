@@ -119,7 +119,7 @@ class CamShift(Tracker):
         for i in range(1, len(images)):
             image = images[i]
 
-            tracked_pos, track_window = self._track(image, track_window, roi_hist)
+            tracked_pos, track_window = self._track(image, (x, y, w, h), roi_hist)
 
             tracked_img = Tracker.draw_contour_window_on_image(image, tracked_pos, self.red_color)
 
@@ -146,8 +146,8 @@ class CamShift(Tracker):
     def draw_track_window_on_img(image, track_pos, color):
         pts = cv.boxPoints(track_pos)
         pts = np.int0(pts)
-        img = cv.polylines(image,[pts],True, color,2)
-        return img
+        cv.polylines(image,[pts],True, color,2)
+        return image
 
 
 def get_images_from_dir(dir):
@@ -178,6 +178,8 @@ def read_ground_truth_rect(file):
 
 
     return rects
+
+
 
 
 def main():
